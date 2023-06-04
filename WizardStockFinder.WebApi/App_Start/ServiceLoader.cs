@@ -14,7 +14,8 @@ namespace WizardStockFinder.WebApi.App_Start
             services
                 .AddScoped<IAccountRepository, AccountRepository>()
                 .AddScoped<WizardStockFinderDbContext>()
-                .AddScoped<IAccountService, AccountService>();
+                .AddScoped<IAccountService, AccountService>()
+                .AddScoped<IScreenerService, ScreenerService>();
         }
     }
 }

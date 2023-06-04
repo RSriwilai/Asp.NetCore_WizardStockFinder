@@ -17,12 +17,6 @@ namespace WizardStockFinder.WebApi.Controllers
             _accountService = accountService;
         }
 
-        /// <summary>
-        ///     Get account data for logged in account
-        /// </summary>
-        /// <remarks>
-        ///     Get account data for the account that is logged in.
-        /// </remarks>
         [Route("", Name = nameof(GetAccounts))]
         [HttpGet]
         public async Task<IActionResult> GetAccounts()

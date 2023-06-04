@@ -1,9 +1,9 @@
-using WizardStockFinder.Services;
+using WizardStockFinder.Services.Processors;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
-        services.AddHostedService<Worker>();
+        services.AddHostedService<StockHandlerProcessor>();
     })
     .Build();
 

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WizardStockFinder.DataAccess\WizardStockFinder.DataAccess.csproj" />
+    <ProjectReference Include="..\WizardStockFinder.Models\WizardStockFinder.Models.csproj" />
   </ItemGroup>
 
 </Project>
