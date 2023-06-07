@@ -14,4 +14,8 @@
     <ProjectReference Include="..\WizardStockFinder.DataAccess\WizardStockFinder.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ScreenerModels\" />
+  </ItemGroup>
+
 </Project>

@@ -7,6 +7,16 @@ builder.Services.AddDbContext<WizardStockFinderDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("WizardStockFinderConnection"));
 });
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 // Add services to the container.
 builder.Services.LoadServices();
 
@@ -23,6 +33,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 

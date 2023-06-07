@@ -10,10 +10,12 @@ namespace WizardStockFinder.WebApi.Controllers
     public class ScreenerController : ControllerBase
     {
         private readonly IScreenerService _screenerService;
+        private readonly ISupportResistanceIndicator _supportResistanceIndicator;
 
-        public ScreenerController(IScreenerService screenerService)
+        public ScreenerController(IScreenerService screenerService, ISupportResistanceIndicator supportResistanceIndicator)
         {
             _screenerService = screenerService;
+            _supportResistanceIndicator = supportResistanceIndicator;
         }
 
         [Route("", Name = nameof(GetStockData))]
@@ -21,6 +23,15 @@ namespace WizardStockFinder.WebApi.Controllers
         public async Task<IActionResult> GetStockData()
         {
             var stockData = await _screenerService.GetStockData();
+
+            return Ok(stockData);
+        }
+
+        [Route("supportResistanceIndicator", Name = nameof(GetSupportResistanceStockData))]
+        [HttpGet]
+        public async Task<IActionResult> GetSupportResistanceStockData()
+        {
+            var stockData = await _supportResistanceIndicator.CalculateSupportResistance();
 
             return Ok(stockData);
         }

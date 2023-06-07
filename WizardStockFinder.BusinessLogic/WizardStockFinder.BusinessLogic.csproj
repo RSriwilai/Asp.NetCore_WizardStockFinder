@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\WizardStockFinder.DataAccess\WizardStockFinder.DataAccess.csproj" />
     <ProjectReference Include="..\WizardStockFinder.Models\WizardStockFinder.Models.csproj" />
     <ProjectReference Include="..\WizardStockFinder.Services\WizardStockFinder.Services.csproj" />

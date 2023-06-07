@@ -10,7 +10,7 @@ namespace WizardStockFinder.Utilis.Helpers
 {
     public class JsonFileHelper
     {
-        public static void WriteToStockDataJsonFile(string jsonString)
+        public static void WriteToStockDataJson(string jsonString)
         {
             string filePath = @"..\WizardStockFinder.DataAccess\StockData\stockData.json";
             File.WriteAllText(filePath, jsonString);

@@ -45,7 +45,7 @@ namespace WizardStockFinder.Services.Processors
                 HttpResponseMessage response = await client.GetAsync(queryUrl);
                 string jsonString = await response.Content.ReadAsStringAsync();
                 
-                JsonFileHelper.WriteToStockDataJsonFile(jsonString);
+                JsonFileHelper.WriteToStockDataJson(jsonString);
 
                 stockData = JsonConvert.DeserializeObject<StockData>(jsonString);
             }

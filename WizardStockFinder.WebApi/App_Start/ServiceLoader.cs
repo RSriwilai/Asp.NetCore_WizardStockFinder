@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Cors.Infrastructure;
+using WizardStockFinder.BusinessLogic.Indicators;
 using WizardStockFinder.BusinessLogic.Interfaces;
 using WizardStockFinder.BusinessLogic.Services;
 using WizardStockFinder.DataAccess.DataContext;
@@ -15,7 +16,8 @@ namespace WizardStockFinder.WebApi.App_Start
                 .AddScoped<IAccountRepository, AccountRepository>()
                 .AddScoped<WizardStockFinderDbContext>()
                 .AddScoped<IAccountService, AccountService>()
-                .AddScoped<IScreenerService, ScreenerService>();
+                .AddScoped<IScreenerService, ScreenerService>()
+                .AddScoped<ISupportResistanceIndicator, SupportResistanceIndicator>();
         }
     }
 }
