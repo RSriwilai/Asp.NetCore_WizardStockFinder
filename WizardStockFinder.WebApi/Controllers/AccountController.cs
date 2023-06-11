@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using WizardStockFinder.BusinessLogic.Interfaces;
+using WizardStockFinder.DataAccess.Models;
 using WizardStockFinder.Models.AccountModels;
 using WizardStockFinder.WebApi.AuthorizationExtensions;
 
@@ -23,6 +24,15 @@ namespace WizardStockFinder.WebApi.Controllers
         {
             var account = await _accountService.GetAll();
             
+            return Ok(account);
+        }
+
+        [Route("", Name = nameof(CreateAccount))]
+        [HttpPost]
+        public async Task<IActionResult> CreateAccount([FromBody] Account newAccount)
+        {
+            var account = await _accountService.CreateAccount(newAccount);
+
             return Ok(account);
         }
     }

@@ -25,5 +25,10 @@ namespace WizardStockFinder.BusinessLogic.Services
          
             return accounts.Select(AccountDto.FromModel);
         }
+
+        public async Task<Account> CreateAccount(Account newAccount)
+        {
+            return await _accountRepository.CreateAccount(newAccount);
+        }
     }
 }

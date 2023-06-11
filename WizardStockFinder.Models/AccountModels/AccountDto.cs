@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using MongoDB.Bson;
 using WizardStockFinder.DataAccess;
 using WizardStockFinder.DataAccess.Models;
 
@@ -11,7 +12,7 @@ namespace WizardStockFinder.Models.AccountModels
 {
     public class AccountDto
     {
-        public int Id { get; set; }
+        public ObjectId Id { get; set; }
         public string Username { get; set; }
         public string? Email { get; set; }
         public Enums.AccountRole AccountRole { get; set; }

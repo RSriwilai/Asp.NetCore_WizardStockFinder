@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,7 +11,7 @@ namespace WizardStockFinder.Models.AccountModels
 {
     public class AccountAuthDto
     {
-        public int AccountId { get; set; }
+        public ObjectId AccountId { get; set; }
         public Enums.AccountRole Role { get; set; }
         public IPAddress IpAddress { get; set; }
 

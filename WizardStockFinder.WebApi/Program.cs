@@ -1,12 +1,13 @@
-using Microsoft.EntityFrameworkCore;
 using WizardStockFinder.DataAccess.DataContext;
 using WizardStockFinder.WebApi.App_Start;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<WizardStockFinderDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("WizardStockFinderConnection"));
-});
+//builder.Services.<WizardStockFinderDbContext>(options =>
+//{
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("WizardStockFinderConnection"));
+//});
+
+builder.Services.AddSingleton<WizardStockFinderDbContext>();
 
 builder.Services.AddCors(options =>
 {

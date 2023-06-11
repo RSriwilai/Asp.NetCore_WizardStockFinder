@@ -1,33 +1,21 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 using WizardStockFinder.DataAccess.DataContext;
 
 var builder = new HostBuilder()
     .ConfigureAppConfiguration((hostContext, config) =>
     {
-        config.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+        config.SetBasePath(hostContext.HostingEnvironment.ContentRootPath)
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
     })
     .ConfigureServices((hostContext, services) =>
     {
-        services.AddDbContext<WizardStockFinderDbContext>(options =>
-            options.UseSqlServer(hostContext.Configuration.GetConnectionString("WizardStockFinderConnection")));
+        services.AddSingleton<WizardStockFinderDbContext>();
 
         // Register other services
-        // ...
+
     });
 
-using (var host = builder.Build())
-{
-    using (var serviceScope = host.Services.CreateScope())
-    {
-        var services = serviceScope.ServiceProvider;
-        var dbContext = services.GetRequiredService<WizardStockFinderDbContext>();
-
-        dbContext.Database.Migrate();
-    }
-
-    host.Run();
-}
+var host = builder.Build();

@@ -13,6 +13,9 @@ namespace WizardStockFinder.Models.StockHandlerProcessorModels
         [JsonProperty("3. Last Refreshed")]
         public string LastRefreshed { get; set; }
 
+        [JsonProperty("3. Last Fetched")]
+        public string LastFetched { get; set; }
+
         [JsonProperty("4. Interval")]
         public string Interval { get; set; }
 

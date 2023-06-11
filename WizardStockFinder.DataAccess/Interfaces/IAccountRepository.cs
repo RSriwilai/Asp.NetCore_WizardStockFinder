@@ -10,5 +10,6 @@ namespace WizardStockFinder.DataAccess.Interfaces
     public interface IAccountRepository
     {
         Task<List<Account>> GetAll();
+        Task<Account> CreateAccount(Account account);
     }
 }

@@ -1,56 +1,65 @@
-using System.Net;
-using System.Text.Json.Serialization;
+using System.Globalization;
 using Newtonsoft.Json;
 using WizardStockFinder.Models.StockHandlerProcessorModels;
-using WizardStockFinder.Utilis.Helpers;
+using WizardStockFinder.Services.Interfaces;
+using WizardStockFinder.Services.Services.Interfaces;
 
 namespace WizardStockFinder.Services.Processors
 {
-    public class StockHandlerProcessor : BackgroundService
+    public class StockHandlerProcessor : IStockHandlerProcessor
     {
         private readonly ILogger<StockHandlerProcessor> _logger;
+        private readonly IStockDataService _stockDataService;
 
-        public StockHandlerProcessor(ILogger<StockHandlerProcessor> logger)
+        public StockHandlerProcessor(ILogger<StockHandlerProcessor> logger, IStockDataService stockDataService)
         {
             _logger = logger;
+            _stockDataService = stockDataService;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public async Task ExecuteAsync()
         {
             var timeSeries = "TIME_SERIES_INTRADAY";
-            var symbol = "AAPL";
+            var symbols = new List<string> { "AAPL", "GOOGL", "MSFT" };
             var interval = "5min";
             var outputSize = "compact";
-            var request = new StockHandlerProcessorRequest
-            {
-                TimeSeries = timeSeries, 
-                Symbol = symbol, 
-                Interval = interval, 
-                OutputSize = outputSize
-            };
 
-            var stockData = await GetStockData(request);
+            var alphavantageApiKey = "YL7BEP6G6N0VSOHU";
+
+            foreach (var symbol in symbols)
+            {
+                var request = new StockHandlerProcessorRequest
+                {
+                    TimeSeries = timeSeries,
+                    Symbol = symbol,
+                    Interval = interval,
+                    OutputSize = outputSize
+                };
+
+                await GetAndInsertStockData(request, alphavantageApiKey);
+            }
+
         }
 
-        private async Task<StockData> GetStockData(StockHandlerProcessorRequest request)
+        private async Task GetAndInsertStockData(StockHandlerProcessorRequest request, string apiKey)
         {
-            var alphavantageApiKey = "YL7BEP6G6N0VSOHU";
-            string queryUrl =
-                $"https://www.alphavantage.co/query?function={request.TimeSeries}&symbol={request.Symbol}&interval={request.Interval}&outputsize={request.OutputSize}&apikey={alphavantageApiKey}";
+            string queryUrl = $"https://www.alphavantage.co/query?function={request.TimeSeries}&symbol={request.Symbol}&interval={request.Interval}&outputsize={request.OutputSize}&apikey={apiKey}";
 
-
-            var stockData = new StockData();
             using (HttpClient client = new HttpClient())
             {
                 HttpResponseMessage response = await client.GetAsync(queryUrl);
                 string jsonString = await response.Content.ReadAsStringAsync();
-                
-                JsonFileHelper.WriteToStockDataJson(jsonString);
 
-                stockData = JsonConvert.DeserializeObject<StockData>(jsonString);
+                var stockData = JsonConvert.DeserializeObject<StockData>(jsonString);
+
+                if (stockData != null)
+                {
+                    var lastFetchedDateTime = DateTimeOffset.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
+                    stockData.MetaData.LastFetched = lastFetchedDateTime;
+
+                    await _stockDataService.InsertData(stockData, request.Symbol, request.Interval);
+                }
             }
-
-            return stockData;
         }
 
     }

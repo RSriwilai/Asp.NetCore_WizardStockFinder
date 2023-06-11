@@ -1,22 +1,28 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using WizardStockFinder.DataAccess.Models;
+﻿using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 
 namespace WizardStockFinder.DataAccess.DataContext
 {
-    public class WizardStockFinderDbContext : DbContext
+    public class WizardStockFinderDbContext
     {
-        public DbSet<Account> Accounts { get; set; }
-        public DbSet<Contact> Contacts { get; set; }
+        private readonly IMongoDatabase _db;
 
-        public WizardStockFinderDbContext() { }
+        public WizardStockFinderDbContext(IConfiguration configuration)
+        {
+            string? connectionString = configuration.GetConnectionString("WizardStockFinderConnection");
+            var databaseName = MongoUrl.Create(connectionString).DatabaseName;
 
-        public WizardStockFinderDbContext(DbContextOptions<WizardStockFinderDbContext> options) : base(options) { }
+            var client = new MongoClient(connectionString);
+
+            _db = client.GetDatabase(databaseName);
+        }
+
+
+        public IMongoCollection<T> GetCollection<T>(string collectionName)
+        {
+            return _db.GetCollection<T>(collectionName);
+        }
+
+
     }
 }

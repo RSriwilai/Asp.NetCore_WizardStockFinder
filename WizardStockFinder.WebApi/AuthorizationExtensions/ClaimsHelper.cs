@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using MongoDB.Bson;
+using System.Net;
 using System.Security.Claims;
 using WizardStockFinder.DataAccess;
 using WizardStockFinder.Models.AccountModels;
@@ -15,7 +16,7 @@ namespace WizardStockFinder.WebApi.AuthorizationExtensions
             _request = request;
         }
 
-        public int AccountId => Convert.ToInt32(FindClaim("AccountId").Value);
+        public ObjectId AccountId => new ObjectId(FindClaim("AccountId").Value);
         public IPAddress IpAddress => _request.HttpContext.Connection.RemoteIpAddress;
 
         public DateTime Expires
