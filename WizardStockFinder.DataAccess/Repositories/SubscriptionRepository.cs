@@ -37,8 +37,30 @@ namespace WizardStockFinder.DataAccess.Repositories
             {
                 return false; 
             }
-
         }
+
+        public async Task<bool> UnsubscribeAccount(ObjectId accountId)
+        {
+            try
+            {
+                var subscriptionFilter = Builders<Subscription>.Filter.Eq(x => x.AccountId, accountId);
+                var accountFilter = Builders<Account>.Filter.Eq(x => x.Id, accountId);
+
+                var accountUpdate = Builders<Account>.Update
+                    .Set(x => x.SubscriptionId, ObjectId.Empty)
+                    .Set(x => x.AccountRole, Enums.AccountRole.User);
+
+                await _subscriptionCollection.DeleteOneAsync(subscriptionFilter);
+                await _accountCollection.UpdateOneAsync(accountFilter, accountUpdate);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
 
         private async Task LinkAccountToSubscription(ObjectId accountId, ObjectId subscriptionId)
         {
