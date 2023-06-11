@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using WizardStockFinder.BusinessLogic.Interfaces;
 using WizardStockFinder.DataAccess.Models;
-using WizardStockFinder.Models.AccountModels;
 using WizardStockFinder.WebApi.AuthorizationExtensions;
 
 namespace WizardStockFinder.WebApi.Controllers
@@ -13,6 +11,7 @@ namespace WizardStockFinder.WebApi.Controllers
     {
         private readonly IAccountService _accountService;
         private ClaimsHelper ClaimsHelper => new ClaimsHelper(User, Request);
+
         public AccountController(IAccountService accountService)
         {
             _accountService = accountService;
@@ -23,7 +22,7 @@ namespace WizardStockFinder.WebApi.Controllers
         public async Task<IActionResult> GetAccounts()
         {
             var account = await _accountService.GetAll();
-            
+
             return Ok(account);
         }
 

@@ -16,6 +16,6 @@ namespace WizardStockFinder.DataAccess.Models
         public string PhoneNumber { get; set; }
         public Enums.AlertType AlertType { get; set; }
 
-        public ObjectId AccountId { get; set; }
+        public ObjectId AccountId { get; set; } = ObjectId.Empty;
     }
 }

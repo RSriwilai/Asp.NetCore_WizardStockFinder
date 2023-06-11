@@ -14,15 +14,15 @@ namespace WizardStockFinder.DataAccess.Models
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public string? Email { get; set; }
-        public Enums.AccountRole AccountRole { get; set; } 
-        public DateTime CreatedOn { get; set; }
+        public string Email { get; set; }
+        public Enums.AccountRole AccountRole { get; set; } = Enums.AccountRole.User;
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
         public DateTime? UpdatedOn { get; set; }
-        public DateTime? ValidUntil { get; set; }
-        public bool IsLockedOut { get; set; } 
-        public bool IsDeleted { get; set; }
-        public ObjectId SubscriptionId { get; set; }
-        public ObjectId ContactId { get; set; }
+        public DateTime? ValidUntil { get; set; } 
+        public bool IsLockedOut { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
+        public ObjectId SubscriptionId { get; set; } = ObjectId.Empty;
+        public ObjectId ContactId { get; set; } = ObjectId.Empty;
 
     }
 }

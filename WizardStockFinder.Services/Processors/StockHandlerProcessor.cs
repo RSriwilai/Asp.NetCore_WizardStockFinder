@@ -38,7 +38,6 @@ namespace WizardStockFinder.Services.Processors
 
                 await GetAndInsertStockData(request, alphavantageApiKey);
             }
-
         }
 
         private async Task GetAndInsertStockData(StockHandlerProcessorRequest request, string apiKey)

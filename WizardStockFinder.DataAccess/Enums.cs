@@ -12,6 +12,7 @@ namespace WizardStockFinder.DataAccess
         {
             Admin = 1,
             User,
+            Vip
         }
 
         public enum AlertType
